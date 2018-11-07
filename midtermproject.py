@@ -12,10 +12,16 @@ from scipy import misc
 import imageio
 import glob
 import os
+# import keras for the convultional stuff
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Activation, Dropout, Flatten,Conv2D, MaxPooling2D
+from keras.layers.normalization import BatchNormalization
+import matplotlib.pyplot as plt
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+from keras.regularizers import l2
 
-
-
-# this function takes all the data in a folder and generates a numpy array 
+# loads all the files from a folder and then returns them as a numpy array
 # https://stackoverflow.com/questions/31386096/importing-png-files-into-numpy
 # https://stackoverflow.com/questions/31386096/importing-png-files-into-numpy/47044303#47044303
 def loadfolder(path):
@@ -35,6 +41,15 @@ def loadfolder(path):
         
     return imgarray
 
+# lenet
+def lenet(width, height, depth, classes):
+    pass
+
+# alexnet
+# usefull links:
+# https://www.mydatahack.com/building-alexnet-with-keras/
+def alexnet(width, height, depth, classes):
+    pass
 
 # download all the contents of a folder into a numpy matrix
 # define the paths ...
