@@ -48,7 +48,7 @@ def lenet(width, height, depth, classes):
 # alexnet
 # usefull links:
 # https://www.mydatahack.com/building-alexnet-with-keras/
-def alexnet(width, height, depth, classes):
+def alexnet():
     model = Sequential()
     # first convultional layer
     model.add(Conv2D(filters=96, input_shape=(224,224,3), kernel_size=(11,11),strides=(4,4), padding='valid'))
@@ -129,5 +129,7 @@ train_background = loadfolder(trainbackground)
 test_background = loadfolder(testbackground)
 print("done!")
 print("now training network...")
-alexnet = alexnet(-1,-1,-1,-1) # define an instance of an alexnet 
-alexnet.summary() # prints out a summery of the network
+alexnet = alexnet() # define an instance of an alexnet 
+#alexnet.summary() # prints out a summery of the network
+# compile the network
+alexnet.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
