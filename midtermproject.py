@@ -41,66 +41,98 @@ def loadfolder(path):
         
     return imgarray
 
-# lenet
-def lenet(width, height, depth, classes):
+# lenet, from Chao's minst hand writing exsample 
+def LeNet(width=1, height=1, depth=1, classes=1):
+		# initialize the model
+		model = Sequential()
+		inputShape = (height, width, depth)
+
+		# if we are using "channels first", update the input shape
+		#if K.image_data_format() == "channels_first":
+		#	inputShape = (depth, height, width)
+
+		# first set of CONV => RELU => POOL layers
+		model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+		model.add(Activation("relu"))
+		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+		# second set of CONV => RELU => POOL layers
+		model.add(Conv2D(50, (5, 5), padding="same"))
+		model.add(Activation("relu"))
+		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+		# first (and only) set of FC => RELU layers
+		model.add(Flatten())
+		model.add(Dense(500))
+		model.add(Activation("relu"))
+
+		# softmax classifier
+		model.add(Dense(classes))
+		model.add(Activation("softmax"))
+
+		# return the constructed network architecture
+		return model
+
+# Alex net, from catdog and powerpoint #13
+def AlexNet(width=1, height=1, depth=1, classes=1):
     pass
 
 # alexnet
 # usefull links:
 # https://www.mydatahack.com/building-alexnet-with-keras/
-def alexnet(width=1, height=1, depth=1, classes=1):
-    model = Sequential()
-    # first convultional layer
-    model.add(Conv2D(filters=96, input_shape=(224,224,3), kernel_size=(11,11),strides=(4,4), padding='valid'))
-    model.add(Activation('relu'))
-    # pooling
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization()) # batch add normalisation
-    # second convolutional layer 
-    model.add(Conv2D(filters=256,kernel_size=(11,11),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    # pooling
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization())
-    # 3erd convolutional layer
-    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    # batch normalisation
-    model.add(BatchNormalization())
-    # 4th convolutional layer 
-    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    # 5th convolutional layer 
-    model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding='valid'))
-    model.add(Activation('relu'))
-    # pooling layer 
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization())
-    # passing to a dence layer
-    model.add(Flatten())
-    # 1st dence layer
-    model.add(Dense(4096,input_shape=(224*224*3,)))
-    model.add(Activation('relu'))
-    # Add dropout to prevent overfitting
-    model.add(Dropout(0.4))
-    model.add(BatchNormalization())
-    # 2ed dence layer
-    model.add(Dense(4096))
-    model.add(Activation('relu'))
-    # add dropout
-    model.add(Dropout(0.4))
-    model.add(BatchNormalization())
-    # 3erd dence layer
-    model.add(Dense(1000))
-    model.add(Activation('relu'))
-    # add another dropout
-    model.add(Dropout(0.4))
-    model.add(BatchNormalization())
-    # output layer
-    model.add(Dense(17))
-    model.add(Activation('softmax'))
-    return model
+#def alexnet(width=1, height=1, depth=1, classes=1):
+#    model = Sequential()
+#    # first convultional layer
+#    model.add(Conv2D(filters=96, input_shape=(224,224,3), kernel_size=(11,11),strides=(4,4), padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    model.add(BatchNormalization()) # batch add normalisation
+#    # second convolutional layer 
+#    model.add(Conv2D(filters=256,kernel_size=(11,11),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    model.add(BatchNormalization())
+#    # 3erd convolutional layer
+#    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    # batch normalisation
+#    model.add(BatchNormalization())
+#    # 4th convolutional layer 
+#    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    model.add(BatchNormalization())
+#    # 5th convolutional layer 
+#    model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling layer 
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    model.add(BatchNormalization())
+#    # passing to a dence layer
+#    model.add(Flatten())
+#    # 1st dence layer
+#    model.add(Dense(4096,input_shape=(224*224*3,)))
+#    model.add(Activation('relu'))
+#    # Add dropout to prevent overfitting
+#    model.add(Dropout(0.4))
+#    model.add(BatchNormalization())
+#    # 2ed dence layer
+#    model.add(Dense(4096))
+#    model.add(Activation('relu'))
+#    # add dropout
+#    model.add(Dropout(0.4))
+#    model.add(BatchNormalization())
+#    # 3erd dence layer
+#    model.add(Dense(1000))
+#    model.add(Activation('relu'))
+#    # add another dropout
+#    model.add(Dropout(0.4))
+#    model.add(BatchNormalization())
+#    # output layer
+#    model.add(Dense(17))
+#    model.add(Activation('softmax'))
+#    return model
 
 # download all the contents of a folder into a numpy matrix
 # define the paths ...
@@ -127,9 +159,10 @@ test_malig = loadfolder(testmal)
 train_malig = loadfolder(trainmal)
 train_background = loadfolder(trainbackground)
 test_background = loadfolder(testbackground)
+
 print("done loading images")
 print("now training network...")
-alexnet = alexnet() # define an instance of an alexnet 
-alexnet.summary() # prints out a summery of the network
+lenetm1 = LeNet(width=28, height=28, depth=1, classes=3) # define an instance of an LeNet, just a test
+lenetm1.summary() # prints out a summery of the network
 # compile the network
-alexnet.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
+#alexnet.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
