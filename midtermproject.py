@@ -93,7 +93,7 @@ def LeNet(width=1, height=1, depth=1, classes=1):
 # alexnet
 # usefull links:
 # https://www.mydatahack.com/building-alexnet-with-keras/
-def alexnet(width=1, height=1, depth=1, classes=1):
+def AlexNet(width=1, height=1, depth=1, classes=1):
     model = Sequential()
     inputshape = (height,width,depth)
     # first convultional layer
@@ -101,13 +101,13 @@ def alexnet(width=1, height=1, depth=1, classes=1):
     model.add(Activation('relu'))
     # pooling
     model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization()) # batch add normalisation
+    #model.add(BatchNormalization()) # batch add normalisation
     # second convolutional layer 
     model.add(Conv2D(filters=256,kernel_size=(11,11),strides=(1,1),padding='valid'))
     model.add(Activation('relu'))
     # pooling
     model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
     # 3erd convolutional layer
     model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
     model.add(Activation('relu'))
@@ -116,13 +116,13 @@ def alexnet(width=1, height=1, depth=1, classes=1):
     # 4th convolutional layer 
     model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
     # 5th convolutional layer 
     model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding='valid'))
     model.add(Activation('relu'))
     # pooling layer 
     model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
     # passing to a dence layer
     model.add(Flatten())
     # 1st dence layer
@@ -130,21 +130,21 @@ def alexnet(width=1, height=1, depth=1, classes=1):
     model.add(Activation('relu'))
     # Add dropout to prevent overfitting
     model.add(Dropout(0.4))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
     # 2ed dence layer
-    model.add(Dense(4096))
-    model.add(Activation('relu'))
+    #model.add(Dense(4096))
+    #model.add(Activation('relu'))
     # add dropout
     model.add(Dropout(0.4))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
     # 3erd dence layer
     model.add(Dense(classes))
-    model.add(Activation('relu'))
+    #model.add(Activation('relu'))
     # add another dropout
-    model.add(Dropout(0.4))
-    model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
     # output layer
-    model.add(Dense(17))
+   # model.add(Dense(17))
     model.add(Activation('softmax')) # find the max output 
     return model
 
@@ -177,6 +177,9 @@ test_background = loadfolder(testbackground)
 print("done loading images")
 print("now training network...")
 lenetm1 = LeNet(width=28, height=28, depth=1, classes=3) # define an instance of an LeNet, just a test
-lenetm1.summary() # prints out a summery of the network
+alexnm1 = AlexNet(width=28,height=28,depth=1,classes=3) # define the model for Alex Net
+print("LeNet summery")
+#lenetm1.summary() # prints out a summery of the network
+alexnm1.summary()
 # compile the network
 #alexnet.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])

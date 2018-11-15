@@ -23,6 +23,7 @@ model = Sequential()
 #model.add(Activation('relu'))
 model.add(Dense(16, input_dim=2, activation='relu'))
 model.add(Dense(16, input_dim=2, activation='relu'))
+model.add(Dense(16, input_dim=2, activation='relu'))
 #model.add(Dense(1)) # output layer 
 #model.add(Activation('sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
