@@ -93,59 +93,108 @@ def LeNet(width=1, height=1, depth=1, classes=1):
 # alexnet
 # usefull links:
 # https://www.mydatahack.com/building-alexnet-with-keras/
-def AlexNet(width=1, height=1, depth=1, classes=1):
+#def AlexNet(width=1, height=1, depth=1, classes=1):
+#    model = Sequential()
+#    inputshape = (height,width,depth)
+#    # first convultional layer
+#    model.add(Conv2D(filters=96, input_shape=inputshape, kernel_size=(11,11),strides=(4,4), padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    #model.add(BatchNormalization()) # batch add normalisation
+#    # second convolutional layer 
+#    model.add(Conv2D(filters=256,kernel_size=(11,11),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    #model.add(BatchNormalization())
+#    # 3erd convolutional layer
+#    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    # batch normalisation
+#    model.add(BatchNormalization())
+#    # 4th convolutional layer 
+#    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
+#    model.add(Activation('relu'))
+#    #model.add(BatchNormalization())
+#    # 5th convolutional layer 
+#    model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding='valid'))
+#    model.add(Activation('relu'))
+#    # pooling layer 
+#    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
+#    #model.add(BatchNormalization())
+#    # passing to a dence layer
+#    model.add(Flatten())
+#    # 1st dence layer
+#    model.add(Dense(4096,input_shape=(height*width*depth,)))
+#    model.add(Activation('relu'))
+#    # Add dropout to prevent overfitting
+#    model.add(Dropout(0.4))
+#    #model.add(BatchNormalization())
+#    # 2ed dence layer
+#    #model.add(Dense(4096))
+#    #model.add(Activation('relu'))
+#    # add dropout
+#    model.add(Dropout(0.4))
+#    #model.add(BatchNormalization())
+#    # 3erd dence layer
+#    model.add(Dense(classes))
+#    #model.add(Activation('relu'))
+#    # add another dropout
+#    #model.add(Dropout(0.4))
+#    #model.add(BatchNormalization())
+#    # output layer
+#   # model.add(Dense(17))
+#    model.add(Activation('softmax')) # find the max output 
+#    return model
+        
+def AlexNet(width, height, depth, classes):
     model = Sequential()
-    inputshape = (height,width,depth)
-    # first convultional layer
-    model.add(Conv2D(filters=96, input_shape=inputshape, kernel_size=(11,11),strides=(4,4), padding='valid'))
-    model.add(Activation('relu'))
-    # pooling
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    #model.add(BatchNormalization()) # batch add normalisation
-    # second convolutional layer 
-    model.add(Conv2D(filters=256,kernel_size=(11,11),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    # pooling
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    #model.add(BatchNormalization())
-    # 3erd convolutional layer
-    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    # batch normalisation
-    model.add(BatchNormalization())
-    # 4th convolutional layer 
-    model.add(Conv2D(filters=384,kernel_size=(3,3),strides=(1,1),padding='valid'))
-    model.add(Activation('relu'))
-    #model.add(BatchNormalization())
-    # 5th convolutional layer 
-    model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding='valid'))
-    model.add(Activation('relu'))
-    # pooling layer 
-    model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2),padding='valid'))
-    #model.add(BatchNormalization())
-    # passing to a dence layer
-    model.add(Flatten())
-    # 1st dence layer
-    model.add(Dense(4096,input_shape=(height*width*depth,)))
-    model.add(Activation('relu'))
-    # Add dropout to prevent overfitting
+    inputshape = (width,height,depth)
+    inputvolume = width*height*depth
+    # first layer 
+    model.add(Conv2D(filters=96, input_shape=inputshape, kernel_size=(11,11), strides=(4,4), padding="valid"))
+    model.add(Activation("relu"))
+    # second layer, max pooling
+    model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid")) # in powerpoint pool size is 3,3
+    # thierd layer, second convultion
+    model.add(Conv2D(filters=256, kernel_size=(5,5), strides=(1,1), padding="valid")) # kernal used to be 11x11
+    model.add(Activation("relu"))
+    # skipping normalization, for now
+    model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid")) # again pool size is 3,3 in power point
+    # fourth layer, convultional layer 
+    model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), padding="valid"))
+    model.add(Activation("relu"))
+    # fith layer convultional layer 
+    model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), padding="valid"))
+    model.add(Activation("relu"))
+    
+    model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding="valid"))
+    model.add(Activation("relu"))
+    # max pooling...
+    model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid"))
+    # at this point we need to start getting ready for the interconnected layer 
+    model.add(Flatten()) # flatten from a 3d shape into a 2d shape
+    # fully connected layer, poweroint has two of these
+    model.add(Dense(4096, input_shape=(inputvolume,)))
+    model.add(Activation("relu"))
+    model.add(Dropout(0.4)) # to prevent overfitting
+    
+    model.add(Dense(4096,))
+    model.add(Activation("relu"))
+    model.add(Dropout(0.4)) # to prevent overfitting
+    
+    # 3rd Dense Layer
+    model.add(Dense(1000))
+    model.add(Activation("relu"))
+    # Add Dropout
     model.add(Dropout(0.4))
+    # Batch Normalisation
     #model.add(BatchNormalization())
-    # 2ed dence layer
-    #model.add(Dense(4096))
-    #model.add(Activation('relu'))
-    # add dropout
-    model.add(Dropout(0.4))
-    #model.add(BatchNormalization())
-    # 3erd dence layer
-    model.add(Dense(classes))
-    #model.add(Activation('relu'))
-    # add another dropout
-    #model.add(Dropout(0.4))
-    #model.add(BatchNormalization())
-    # output layer
-   # model.add(Dense(17))
-    model.add(Activation('softmax')) # find the max output 
+    
+    model.add(Dense(classes)) # should have 3 classes
+    #model.add(Activation("relu"))
+    model.add(Activation("softmax"))
     return model
 
 # download all the contents of a folder into a numpy matrix
