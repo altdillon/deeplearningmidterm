@@ -27,7 +27,7 @@ model.add(Dense(16, input_dim=2, activation='relu'))
 #model.add(Dense(1)) # output layer 
 #model.add(Activation('sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
-#model.summary()
+model.summary()
 model.compile(optimizer='adam',loss='mean_squared_error',metrics=['binary_accuracy'])
 #one_hot_labels = keras.utils.to_categorical(lables, num_classes=2)
 #model.fit(outputs,truthtable,epochs=10)
