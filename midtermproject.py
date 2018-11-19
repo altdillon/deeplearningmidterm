@@ -106,7 +106,8 @@ def LeNet(width=1, height=1, depth=1, classes=1):
 #    model.add(Activation('relu'))
 #    return model
     
-        
+# note, this is my instance of the alenet
+# the         
 def AlexNet(width, height, depth, classes):
     model = Sequential()
     inputshape = (width,height,depth)
@@ -301,14 +302,16 @@ if __name__ == "__main__":
         saveHistory(history) # save the history of the training session to a file
         print("done training and saving model")
     else:
-        if os.path.isfile(filename):# check to see if the file exists 
+        print("loading files from memory, if they exisit")
+        if os.path.isfile(filename) and os.path.isfile("history.bin"):# check to see if the file exists 
             currentModel = load_model(filename)
             history = loadHistory() # load history from an object
+        print("done loading files")
     
     
     ans = input("display huristics? (y/n) >")
     if ans == "y":
         print("printing graphs")
-        showGraphs()
+        showGraphs(history)
         
     print("done!")
