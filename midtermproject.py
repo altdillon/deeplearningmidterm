@@ -151,7 +151,7 @@ def AlexNet(width, height, depth, classes):
     # Batch Normalisation
     #model.add(BatchNormalization())
     
-    model.add(Dense(2)) # should have 3 classes, for some reason only works with 2
+    model.add(Dense(classes)) # should have 3 classes, for some reason only works with 2
     #model.add(Activation("relu"))
     model.add(Activation("softmax"))
     return model
@@ -217,9 +217,9 @@ alexnm1 = AlexNet(width=256, height=256, depth=3, classes=3) # define the model 
 ##print("alexnet summery")
 #lenetm1.summary() # prints out a summery of the network
 ##alexnm1.summary()
-## compile the network
-##alexnet.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
-lenetm1.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
+# compile the network
+alexnm1.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
+#lenetm1.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
 ## train the network
 #epochs = 50
 #batchsize = 25 
@@ -236,11 +236,12 @@ lenetm1.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accu
 #                           validation_steps = steps_test)
 
 def trainNewModel():
-    epochs = 50
+    epochs = 25 # switched to 25 b/c 50 is too big
     #batchsize = 25 # not really needed in this function
     steps_test = generator_test.n // batch_size
     steps_per_epoch = generator_train.n // batch_size
-    model = lenetm1 # using lenet... for now 
+    #model = lenetm1 # using lenet... for now 
+    model = alexnm1 
     history= model.fit_generator(generator_train,
                            epochs=epochs,
                            steps_per_epoch=steps_per_epoch,
