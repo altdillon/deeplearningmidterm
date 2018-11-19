@@ -115,22 +115,32 @@ def AlexNet(width, height, depth, classes):
     # first layer 
     model.add(Conv2D(filters=96, input_shape=inputshape, kernel_size=(11,11), strides=(4,4), padding="valid"))
     model.add(Activation("relu"))
+    model.add(BatchNormalization())
+
     # second layer, max pooling
     model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid")) # in powerpoint pool size is 3,3
     # thierd layer, second convultion
     model.add(Conv2D(filters=256, kernel_size=(5,5), strides=(1,1), padding="valid")) # kernal used to be 11x11
     model.add(Activation("relu"))
+    model.add(BatchNormalization())
+
     # skipping normalization, for now
     model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid")) # again pool size is 3,3 in power point
     # fourth layer, convultional layer 
     model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), padding="valid"))
     model.add(Activation("relu"))
+    model.add(BatchNormalization())
+
     # fith layer convultional layer 
     model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), padding="valid"))
     model.add(Activation("relu"))
+    model.add(BatchNormalization())
+
     
     model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), padding="valid"))
     model.add(Activation("relu"))
+    model.add(BatchNormalization())
+
     # max pooling...
     model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding="valid"))
     # at this point we need to start getting ready for the interconnected layer 
@@ -212,9 +222,9 @@ generator_test = datagen_test.flow_from_directory(  directory=test_dir,
 
 print("done loading images")
 #print("now training network...")
-#
-lenetm1 = LeNet(width=256, height=256, depth=3, classes=3) # define an instance of an LeNet, just a test
-alexnm1 = AlexNet(width=256, height=256, depth=3, classes=3) # define the model for Alex Net
+testclasses = 3
+lenetm1 = LeNet(width=256, height=256, depth=3, classes=testclasses) # define an instance of an LeNet, just a test
+alexnm1 = AlexNet(width=256, height=256, depth=3, classes=testclasses) # define the model for Alex Net
 ##print("alexnet summery")
 #lenetm1.summary() # prints out a summery of the network
 ##alexnm1.summary()
@@ -306,7 +316,9 @@ if __name__ == "__main__":
         if os.path.isfile(filename) and os.path.isfile("history.bin"):# check to see if the file exists 
             currentModel = load_model(filename)
             history = loadHistory() # load history from an object
-        print("done loading files")
+            print("done loading files")
+        else:
+            print("no files loaded")
     
     
     ans = input("display huristics? (y/n) >")
